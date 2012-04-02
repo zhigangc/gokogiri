@@ -7,7 +7,7 @@ package tree
 #include <libxml/HTMLtree.h>
 #include "Callback.h"
 
-int NodeType(xmlNode *node) { return (int)node->type; }
+int NodeType_OLD(xmlNode *node) { return (int)node->type; }
 
 xmlBufferPtr DumpNodeToXml(xmlNode *node, xmlDoc *doc) {
   xmlBuffer *buff = xmlBufferCreate();
@@ -26,7 +26,7 @@ func invalidateNode(nodePtr unsafe.Pointer, docPtr unsafe.Pointer) {
 }
 
 func xmlNodeType(node *C.xmlNode) int {
-	return int(C.NodeType(node))
+	return int(C.NodeType_OLD(node))
 }
 
 func (node *XmlNode) Doc() *Doc {
@@ -48,7 +48,7 @@ func (node *XmlNode) Type() int {
 	if ! node.IsValid() {
 		return NIL_NODE
 	}
-	return int(C.NodeType(node.ptr()))
+	return int(C.NodeType_OLD(node.ptr()))
 }
 
 func (node *XmlNode) Free() {
