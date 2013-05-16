@@ -8,6 +8,7 @@ import (
 	"errors"
 	. "gokogiri/util"
 	"gokogiri/xpath"
+	"strconv"
 	"unsafe"
 )
 
@@ -96,6 +97,8 @@ type Node interface {
 	String() string
 	Content() string
 	InnerHtml() string
+
+	RecursivelyRemoveNamespaces() error
 }
 
 //pre-allocate a buffer for serializing the document
@@ -173,7 +176,6 @@ func (xmlNode *XmlNode) AddChild(data interface{}) (err error) {
 	case *DocumentFragment:
 		if nodes, err := xmlNode.coerce(data); err == nil {
 			for _, node := range nodes {
-				println("trying to add ", node.NodePtr())
 				if err = xmlNode.addChild(node); err != nil {
 					break
 				}
@@ -438,7 +440,6 @@ func (xmlNode *XmlNode) Search(data interface{}) (result []Node, err error) {
 	case string:
 		if xpathExpr := xpath.Compile(data); xpathExpr != nil {
 			result, err = xmlNode.Search(xpathExpr)
-			//defer xpathExpr.Free()
 		} else {
 			err = errors.New("cannot compile xpath: " + data)
 		}
@@ -512,6 +513,31 @@ func (xmlNode *XmlNode) Duplicate(level int) (dup Node) {
 		dup = NewNode(unsafe.Pointer(dupPtr), xmlNode.DocCtx)
 	}
 	return
+}
+
+func (xmlNode *XmlNode) serialize(format int, encoding, outputBuffer []byte) ([]byte, int) {
+	nodePtr := unsafe.Pointer(xmlNode.Ptr)
+	var encodingPtr unsafe.Pointer
+	if len(encoding) == 0 {
+		encoding = xmlNode.OutputEncoding()
+	}
+	if len(encoding) > 0 {
+		encodingPtr = unsafe.Pointer(&(encoding[0]))
+	} else {
+		encodingPtr = nil
+	}
+
+	wbuffer := &WriteBuffer{Node: xmlNode, Buffer: outputBuffer}
+	wbufferPtr := unsafe.Pointer(wbuffer)
+
+	format |= XML_SAVE_FORMAT
+	ret := int(C.xmlSaveNode(wbufferPtr, nodePtr, encodingPtr, C.int(format)))
+	if ret < 0 {
+		panic("output error in xml node serialization: " + strconv.Itoa(ret))
+		return nil, 0
+	}
+
+	return wbuffer.Buffer, wbuffer.Offset
 }
 
 func (xmlNode *XmlNode) ToXml(encoding, outputBuffer []byte) ([]byte, int) {
@@ -673,4 +699,35 @@ func (xmlNode *XmlNode) isAccestor(nodePtr unsafe.Pointer) int {
 		}
 	}
 	return 0
+}
+
+func (xmlNode *XmlNode) RecursivelyRemoveNamespaces() (err error) {
+	nodePtr := xmlNode.Ptr
+	C.xmlSetNs(nodePtr, nil)
+
+	for child := xmlNode.FirstChild(); child != nil; {
+		child.RecursivelyRemoveNamespaces()
+		child = child.NextSibling()
+	}
+
+	nodeType := xmlNode.NodeType()
+
+	if ((nodeType == XML_ELEMENT_NODE) ||
+		(nodeType == XML_XINCLUDE_START) ||
+		(nodeType == XML_XINCLUDE_END)) &&
+		(nodePtr.nsDef != nil) {
+		C.xmlFreeNsList((*C.xmlNs)(nodePtr.nsDef))
+		nodePtr.nsDef = nil
+	}
+
+	if nodeType == XML_ELEMENT_NODE && nodePtr.properties != nil {
+		property := nodePtr.properties
+		for property != nil {
+			if property.ns != nil {
+				property.ns = nil
+			}
+			property = property.next
+		}
+	}
+	return
 }

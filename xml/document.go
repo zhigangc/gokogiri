@@ -26,6 +26,7 @@ type Document interface {
 	Free()
 	String() string
 	Root() *ElementNode
+	RecursivelyRemoveNamespaces() error
 }
 
 type XmlDocument struct {
@@ -80,6 +81,25 @@ func CreateEmptyDocument(inEncoding, outEncoding []byte) (doc *XmlDocument) {
 	docPtr := C.newEmptyXmlDoc()
 	doc = NewDocument(unsafe.Pointer(docPtr), 0, inEncoding, outEncoding)
 	return
+}
+
+func (doc *XmlDocument) String2() string {
+	var encodingPtr unsafe.Pointer
+	encoding := doc.OutEncoding
+	
+	if len(encoding) > 0 {
+		encodingPtr = unsafe.Pointer(&(encoding[0]))
+	} else {
+		encodingPtr = nil
+	}
+
+	format := XML_SAVE_FORMAT | XML_SAVE_AS_XML
+	strLen := 0
+	strLenPtr := unsafe.Pointer(&strLen)
+
+	outPtr := C.xmlDocDumpToString(doc.Ptr, encodingPtr, C.int(format), (*C.int)(strLenPtr))
+	println("strLen", strLen)
+	return C.GoStringN(outPtr, C.int(strLen))
 }
 
 /*
