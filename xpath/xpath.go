@@ -55,10 +55,6 @@ func (xpath *XPath) Evaluate(nodePtr unsafe.Pointer, xpathExpr *Expression) (nod
 		return
 	}
 	xpath.ContextPtr.node = (*C.xmlNode)(nodePtr)
-	if xpath.ResultPtr != nil {
-		C.xmlXPathFreeObject(xpath.ResultPtr)
-	}
-
 	xpath.ResultPtr = C.xmlXPathCompiledEval(xpathExpr.Ptr, xpath.ContextPtr)
 	if xpath.ResultPtr == nil {
 		err = errors.New("err in evaluating xpath: " + xpathExpr.String())
@@ -72,6 +68,10 @@ func (xpath *XPath) Evaluate(nodePtr unsafe.Pointer, xpathExpr *Expression) (nod
 				nodes[i] = unsafe.Pointer(C.fetchNode(nodesetPtr, C.int(i)))
 			}
 		}
+	}
+	if xpath.ResultPtr != nil {
+		C.xmlXPathFreeObject(xpath.ResultPtr)
+		xpath.ResultPtr = nil
 	}
 	return
 }
