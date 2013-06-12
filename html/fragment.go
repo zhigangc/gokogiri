@@ -3,8 +3,8 @@ package html
 //#include "helper.h"
 import "C"
 import (
-	. "gokogiri/util"
-	"gokogiri/xml"
+	. "github.com/moovweb/gokogiri/util"
+	"github.com/moovweb/gokogiri/xml"
 )
 
 var fragmentWrapperStart = []byte("<div>")

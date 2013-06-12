@@ -3,7 +3,7 @@ package xml
 //#include "helper.h"
 import "C"
 import "unsafe"
-import . "gokogiri/util"
+import . "github.com/moovweb/gokogiri/util"
 
 type FragmentParser interface {
 	ParseFragment(*DocCtx, *XmlNode, []byte, []byte, int) (*DocumentFragment, error) 

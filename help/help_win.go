@@ -4,7 +4,6 @@ package help
 
 /*
 #cgo pkg-config: libxml-2.0
-
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/HTMLtree.h>
@@ -20,7 +19,7 @@ func LibxmlInitParser() {
 }
 
 func LibxmlCleanUpParser() {
-	// Because of our test structure, this method is called several times 
+	// Because of our test structure, this method is called several times
 	// during a test run (but it should only be called once during the lifetime
 	// of the program).  Windows truly hates this, so we comment it out for it.
 	// Other OSes don't seem to care.

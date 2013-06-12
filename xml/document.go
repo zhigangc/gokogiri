@@ -2,17 +2,13 @@ package xml
 
 /*
 #cgo pkg-config: libxml-2.0
-
 #include "helper.h"
 */
 import "C"
 
 import (
-	. "gokogiri/util"
-)
-
-import (
 	"runtime"
+	. "github.com/moovweb/gokogiri/util"
 	"unsafe"
 )
 

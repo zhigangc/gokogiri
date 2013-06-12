@@ -4,7 +4,7 @@ package html
 import "C"
 import "unsafe"
 import "bytes"
-import "gokogiri/xml"
+import "github.com/moovweb/gokogiri/xml"
 
 type HtmlFragmentParser struct {
 }

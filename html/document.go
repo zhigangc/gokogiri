@@ -2,7 +2,6 @@ package html
 
 /*
 #cgo pkg-config: libxml-2.0
-
 #include <libxml/HTMLtree.h>
 #include <libxml/HTMLparser.h>
 #include "helper.h"
@@ -10,8 +9,8 @@ package html
 import "C"
 
 import (
-	. "gokogiri/util"
-	"gokogiri/xml"
+	. "github.com/moovweb/gokogiri/util"
+	"github.com/moovweb/gokogiri/xml"
 	"unsafe"
 )
 

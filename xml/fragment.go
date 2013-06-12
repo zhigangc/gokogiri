@@ -1,9 +1,12 @@
 package xml
 
-//#include "helper.h"
+/*
+#cgo pkg-config: libxml-2.0
+#include "helper.h"
+*/
 import "C"
 import (
-	. "gokogiri/util"
+	. "github.com/moovweb/gokogiri/util"
 )
 
 type DocumentFragment struct {

@@ -1,13 +1,16 @@
 package xml
 
-//#include "helper.h"
-//#include <string.h>
+/*
+#cgo pkg-config: libxml-2.0
+#include "helper.h"
+#include <string.h>
+*/
 import "C"
 
 import (
 	"errors"
-	. "gokogiri/util"
-	"gokogiri/xpath"
+	. "github.com/moovweb/gokogiri/util"
+	"github.com/moovweb/gokogiri/xpath"
 	"strconv"
 	"unsafe"
 )
