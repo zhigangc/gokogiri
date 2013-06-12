@@ -34,7 +34,7 @@ import "C"
 import "unsafe"
 import . "github.com/moovweb/gokogiri/util"
 
-//import "runtime"
+import "runtime"
 import "errors"
 
 type Expression struct {
@@ -65,7 +65,7 @@ func Compile(path string) (expr *Expression) {
 		return
 	}
 	expr = &Expression{Ptr: ptr, xpath: path}
-	//runtime.SetFinalizer(expr, (*Expression).Free)
+	runtime.SetFinalizer(expr, (*Expression).Free)
 	return
 }
 

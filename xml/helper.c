@@ -27,10 +27,9 @@ void xmlFreeChars(char *buffer) {
 	}
 }
 
-char *xmlDocDumpToString(xmlDoc *doc, void *encoding, int format) {
+char *xmlDocDumpToString(xmlDoc *doc, void *encoding, int format, int* len) {
 	xmlChar *buff;
-	int buffersize;
-	xmlDocDumpFormatMemoryEnc(doc, &buff, &buffersize, (char*)encoding, format);
+	xmlDocDumpFormatMemoryEnc(doc, &buff, len, (char*)encoding, format);
 	return (char*)buff;
 }
 

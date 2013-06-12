@@ -18,7 +18,7 @@ void xmlSetContent(void *gonode, void *node, void *content);
 
 xmlDoc* newEmptyXmlDoc();
 xmlElementType getNodeType(xmlNode *node);
-char *xmlDocDumpToString(xmlDoc *doc, void *encoding, int format);
+char *xmlDocDumpToString(xmlDoc *doc, void *encoding, int format, int *len);
 char *htmlDocDumpToString(xmlDoc *doc, int format);
 void xmlFreeChars(char *buffer);
 int xmlUnlinkNodeWithCheck(xmlNode *node);
