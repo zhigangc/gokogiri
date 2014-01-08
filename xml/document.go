@@ -8,7 +8,7 @@ import "C"
 
 import (
 	"runtime"
-	. "github.com/moovweb/gokogiri/util"
+	. "github.com/zhigangc/gokogiri/util"
 	"unsafe"
 )
 

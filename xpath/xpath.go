@@ -13,7 +13,7 @@ xmlNode* fetchNode(xmlNodeSet *nodeset, int index) {
 import "C"
 
 import "unsafe"
-import . "github.com/moovweb/gokogiri/util"
+import . "github.com/zhigangc/gokogiri/util"
 import "runtime"
 import "errors"
 

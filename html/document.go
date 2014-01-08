@@ -9,8 +9,8 @@ package html
 import "C"
 
 import (
-	. "github.com/moovweb/gokogiri/util"
-	"github.com/moovweb/gokogiri/xml"
+	. "github.com/zhigangc/gokogiri/util"
+	"github.com/zhigangc/gokogiri/xml"
 	"unsafe"
 )
 

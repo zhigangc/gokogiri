@@ -6,7 +6,7 @@ package xml
 */
 import "C"
 import (
-	. "github.com/moovweb/gokogiri/util"
+	. "github.com/zhigangc/gokogiri/util"
 )
 
 type DocumentFragment struct {

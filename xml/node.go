@@ -9,8 +9,8 @@ import "C"
 
 import (
 	"errors"
-	. "github.com/moovweb/gokogiri/util"
-	"github.com/moovweb/gokogiri/xpath"
+	. "github.com/zhigangc/gokogiri/util"
+	"github.com/zhigangc/gokogiri/xpath"
 	"strconv"
 	"unsafe"
 )

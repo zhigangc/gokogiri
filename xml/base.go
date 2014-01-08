@@ -4,8 +4,8 @@ package xml
 #include "helper.h"
 */
 import "C"
-import "github.com/moovweb/gokogiri/xpath"
-import . "github.com/moovweb/gokogiri/util"
+import "github.com/zhigangc/gokogiri/xpath"
+import . "github.com/zhigangc/gokogiri/util"
 import "unsafe"
 
 

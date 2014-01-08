@@ -1,6 +1,6 @@
 package html
 
-import "github.com/moovweb/gokogiri/xml"
+import "github.com/zhigangc/gokogiri/xml"
 
 //xml parse option
 const (
